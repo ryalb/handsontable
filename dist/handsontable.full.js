@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  * http://handsontable.com/
  *
- * Date: Thu Jan 15 2015 16:08:05 GMT-0300 (BRT)
+ * Date: Thu Jan 15 2015 16:43:29 GMT-0300 (BRT)
  */
 /*jslint white: true, browser: true, plusplus: true, indent: 4, maxerr: 50 */
 
@@ -10601,17 +10601,19 @@ function HandsontableManualColumnMove() {
 
     eventManager.addEventListener(instance.rootElement,'mouseover',function (e) {
         if (checkColumnHeader(e.target)){
-          var th = getTHFromTargetElement(e.target);
-          if (th) {
-            if (pressed) {
-              var col = instance.view.wt.wtTable.getCoords(th).col;
-        		if(col >= 0) { //not TH above row header
-          			endCol = col;
-          			refreshHandlePosition(e.target, endCol - startCol);
-        		}
-            }
-            else {
-              setupHandlePosition.call(instance, th);
+          if( e.target.tagName === 'TH' || e.target.tagName === 'DIV') {
+            var th = getTHFromTargetElement(e.target);
+            if (th) {
+              if (pressed) {
+                var col = instance.view.wt.wtTable.getCoords(th).col;
+          		if(col >= 0) { //not TH above row header
+            			endCol = col;
+            			refreshHandlePosition(e.target, endCol - startCol);
+          		}
+              }
+              else {
+                setupHandlePosition.call(instance, th);
+              }
             }
           }
         }
@@ -13528,16 +13530,14 @@ Handsontable.MergeCells = MergeCells;
 
       eventManager.addEventListener(instance.rootElement,'mouseover', function (e){
         if(checkRowHeader(e.target)){
-          if( e.target.tagName === 'TH' || e.target.tagName === 'DIV') {
-            var th = getTHFromTargetElement(e.target);
-            if (th) {
-              if (pressed) {
-                endRow = instance.view.wt.wtTable.getCoords(th).row;
-                refreshHandlePosition(th, endRow - startRow);
-              }
-              else {
-                setupHandlePosition.call(instance, th);
-              }
+          var th = getTHFromTargetElement(e.target);
+          if (th) {
+            if (pressed) {
+              endRow = instance.view.wt.wtTable.getCoords(th).row;
+              refreshHandlePosition(th, endRow - startRow);
+            }
+            else {
+              setupHandlePosition.call(instance, th);
             }
           }
         }
