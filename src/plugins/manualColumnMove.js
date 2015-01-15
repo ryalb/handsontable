@@ -113,17 +113,19 @@ function HandsontableManualColumnMove() {
 
     eventManager.addEventListener(instance.rootElement,'mouseover',function (e) {
         if (checkColumnHeader(e.target)){
-          var th = getTHFromTargetElement(e.target);
-          if (th) {
-            if (pressed) {
-              var col = instance.view.wt.wtTable.getCoords(th).col;
-        		if(col >= 0) { //not TH above row header
-          			endCol = col;
-          			refreshHandlePosition(e.target, endCol - startCol);
-        		}
-            }
-            else {
-              setupHandlePosition.call(instance, th);
+          if( e.target.tagName === 'TH' || e.target.tagName === 'DIV') {
+            var th = getTHFromTargetElement(e.target);
+            if (th) {
+              if (pressed) {
+                var col = instance.view.wt.wtTable.getCoords(th).col;
+          		if(col >= 0) { //not TH above row header
+            			endCol = col;
+            			refreshHandlePosition(e.target, endCol - startCol);
+          		}
+              }
+              else {
+                setupHandlePosition.call(instance, th);
+              }
             }
           }
         }
