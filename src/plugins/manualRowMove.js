@@ -113,14 +113,16 @@
 
       eventManager.addEventListener(instance.rootElement,'mouseover', function (e){
         if(checkRowHeader(e.target)){
-          var th = getTHFromTargetElement(e.target)
-          if (th) {
-            if (pressed) {
-              endRow = instance.view.wt.wtTable.getCoords(th).row;
-              refreshHandlePosition(th, endRow - startRow);
-            }
-            else {
-              setupHandlePosition.call(instance, th);
+          if( e.target.tagName === 'TH' || e.target.tagName === 'DIV') {
+            var th = getTHFromTargetElement(e.target);
+            if (th) {
+              if (pressed) {
+                endRow = instance.view.wt.wtTable.getCoords(th).row;
+                refreshHandlePosition(th, endRow - startRow);
+              }
+              else {
+                setupHandlePosition.call(instance, th);
+              }
             }
           }
         }

@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  * http://handsontable.com/
  *
- * Date: Mon Jan 12 2015 10:24:46 GMT+0100 (CET)
+ * Date: Thu Jan 15 2015 16:08:05 GMT-0300 (BRT)
  */
 /*jslint white: true, browser: true, plusplus: true, indent: 4, maxerr: 50 */
 
@@ -13528,14 +13528,16 @@ Handsontable.MergeCells = MergeCells;
 
       eventManager.addEventListener(instance.rootElement,'mouseover', function (e){
         if(checkRowHeader(e.target)){
-          var th = getTHFromTargetElement(e.target)
-          if (th) {
-            if (pressed) {
-              endRow = instance.view.wt.wtTable.getCoords(th).row;
-              refreshHandlePosition(th, endRow - startRow);
-            }
-            else {
-              setupHandlePosition.call(instance, th);
+          if( e.target.tagName === 'TH' || e.target.tagName === 'DIV') {
+            var th = getTHFromTargetElement(e.target);
+            if (th) {
+              if (pressed) {
+                endRow = instance.view.wt.wtTable.getCoords(th).row;
+                refreshHandlePosition(th, endRow - startRow);
+              }
+              else {
+                setupHandlePosition.call(instance, th);
+              }
             }
           }
         }
